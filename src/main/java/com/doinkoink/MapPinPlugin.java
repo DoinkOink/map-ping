@@ -88,7 +88,7 @@ public class MapPinPlugin extends Plugin
 
 			client.createMenuEntry(0)
 				.setOption("Send")
-				.setTarget("<col=ff9040>Ping</col>")
+				.setTarget("<col=ff9040>Pin</col>")
 				.onClick(e -> {
 					final MapPin pin = new MapPin(target, client.getLocalPlayer().getName(), config.mapPinColor());
 
