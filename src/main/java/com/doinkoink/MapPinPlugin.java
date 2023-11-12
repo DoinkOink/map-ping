@@ -7,8 +7,11 @@ import net.runelite.api.Client;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.Point;
 import net.runelite.api.RenderOverview;
+import net.runelite.api.annotations.Interface;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.MenuOpened;
+import net.runelite.api.widgets.ComponentID;
+import net.runelite.api.widgets.InterfaceID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
@@ -75,7 +78,7 @@ public class MapPinPlugin extends Plugin
 	public void onMenuOpened(final MenuOpened event) {
 		mousePosOnMenuOpened = client.getMouseCanvasPosition();
 
-		final Widget map = client.getWidget(WidgetInfo.WORLD_MAP_VIEW);
+		final Widget map = client.getWidget(ComponentID.WORLD_MAP_MAPVIEW);
 
 		if (map == null) {
 			return;
