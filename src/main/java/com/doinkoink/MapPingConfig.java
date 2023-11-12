@@ -1,19 +1,25 @@
 package com.doinkoink;
 
+import net.runelite.client.config.Alpha;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.ui.ColorScheme;
 
-@ConfigGroup("example")
+import java.awt.Color;
+
+@ConfigGroup("mapPin")
 public interface MapPingConfig extends Config
 {
+	@Alpha
 	@ConfigItem(
-		keyName = "greeting",
-		name = "Welcome Greeting",
-		description = "The message to show to the user when they login"
+		keyName = "mapPinColor",
+		name = "Map Pin Color",
+		description = "Sets the color of your Map Pins.",
+		position = 0
 	)
-	default String greeting()
+	default Color mapPinColor()
 	{
-		return "Hello";
+		return new Color(220, 138, 0);
 	}
 }
