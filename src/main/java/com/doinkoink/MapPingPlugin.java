@@ -14,6 +14,7 @@ import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.party.PartyService;
+import net.runelite.client.party.WSClient;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.worldmap.WorldMapOverlay;
@@ -38,6 +39,9 @@ public class MapPingPlugin extends Plugin
 	private MapPingConfig config;
 
 	@Inject
+	private WSClient wsClient;
+
+	@Inject
 	private PartyService partyService;
 
 	@Inject
@@ -55,13 +59,13 @@ public class MapPingPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
-
+		wsClient.registerMessage(MapPin.class);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
-
+		wsClient.unregisterMessage(MapPin.class);
 	}
 
 	@Subscribe
@@ -74,30 +78,52 @@ public class MapPingPlugin extends Plugin
 			return;
 		}
 
+		WorldPoint target = calculateMapPoint(mousePosOnMenuOpened);
+
 		if (map.getBounds().contains(client.getMouseCanvasPosition().getX(), client.getMouseCanvasPosition().getY())) {
 			final MenuEntry[] entries = event.getMenuEntries();
+
 			client.createMenuEntry(0)
 				.setOption("Send")
-				.setTarget("Ping")
+				.setTarget("<col=ff9040>Ping</col>")
 				.onClick(e -> {
-					WorldPoint target = calculateMapPoint(mousePosOnMenuOpened);
 					final MapPin pin = new MapPin(target, client.getLocalPlayer().getName());
 
-					setTarget(pin);
-					partyService.send(pin);
+					if (partyService.isInParty()) {
+						partyService.send(pin);
+					} else {
+						setTarget(pin);
+					}
 				}
 			);
+
+			for(MenuEntry entry : entries) {
+				if (entry.getTarget().contains("Pin")) {
+					String pinOwner = entry.getTarget().split("'")[0].split(">")[1];
+
+					client.createMenuEntry(0)
+						.setOption("Remove")
+						.setTarget(entry.getTarget())
+						.onClick(e -> {
+							if (markers.containsKey(pinOwner)) {
+								worldMapPointManager.removeIf(x -> x == markers.get(pinOwner));
+								markers.put(pinOwner, null);
+							}
+						}
+					);
+				}
+			}
 		}
+
+
 	}
 
 	@Subscribe
 	public void onMapPin(MapPin mapPin) {
-		System.out.println("Recieved pin from: " + mapPin.getMember());
+		setTarget(mapPin);
 	}
 
 	private void setTarget(MapPin pin) {
-		//this.target = target;
-		//pathUpdateScheduled = true;
 		if (!markers.containsKey(pin.getMember())) {
 			markers.put(pin.getMember(), null);
 		}
@@ -115,6 +141,7 @@ public class MapPingPlugin extends Plugin
 		marker.setSnapToEdge(true);
 
 		worldMapPointManager.add(marker);
+		markers.put(pin.getMember(), marker);
 	}
 
 	private WorldPoint calculateMapPoint(Point point) {
