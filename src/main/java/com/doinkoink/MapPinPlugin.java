@@ -17,7 +17,6 @@ import net.runelite.client.party.PartyService;
 import net.runelite.client.party.WSClient;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.overlay.worldmap.WorldMapOverlay;
 import net.runelite.client.ui.overlay.worldmap.WorldMapPoint;
 import net.runelite.client.ui.overlay.worldmap.WorldMapPointManager;
@@ -26,7 +25,6 @@ import net.runelite.client.util.ImageUtil;
 import javax.inject.Inject;
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -35,13 +33,13 @@ import java.util.HashMap;
 @PluginDescriptor(
 	name = "Party World Map Ping"
 )
-public class MapPingPlugin extends Plugin
+public class MapPinPlugin extends Plugin
 {
 	@Inject
 	private Client client;
 
 	@Inject
-	private MapPingConfig config;
+	private MapPinConfig config;
 
 	@Inject
 	private WSClient wsClient;
@@ -57,7 +55,7 @@ public class MapPingPlugin extends Plugin
 
 	public HashMap<String, WorldMapPoint> markers = new HashMap<>();
 
-	private static final BufferedImage MAP_PIN = ImageUtil.getResourceStreamFromClass(MapPingPlugin.class, "/map_pin.png");
+	private static final BufferedImage MAP_PIN = ImageUtil.getResourceStreamFromClass(MapPinPlugin.class, "/map_pin.png");
 
 	private Point mousePosOnMenuOpened;
 
@@ -182,8 +180,8 @@ public class MapPingPlugin extends Plugin
 	}
 
 	@Provides
-	MapPingConfig provideConfig(ConfigManager configManager)
+	MapPinConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(MapPingConfig.class);
+		return configManager.getConfig(MapPinConfig.class);
 	}
 }

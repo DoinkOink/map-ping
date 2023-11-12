@@ -4,12 +4,11 @@ import net.runelite.client.config.Alpha;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-import net.runelite.client.ui.ColorScheme;
 
 import java.awt.Color;
 
 @ConfigGroup("mapPin")
-public interface MapPingConfig extends Config
+public interface MapPinConfig extends Config
 {
 	@Alpha
 	@ConfigItem(
