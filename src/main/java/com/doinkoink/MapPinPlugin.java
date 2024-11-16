@@ -109,7 +109,7 @@ public class MapPinPlugin extends Plugin
 		if (_map.getBounds().contains(_client.getMouseCanvasPosition().getX(), _client.getMouseCanvasPosition().getY())) {
 			final MenuEntry[] _entries = event.getMenuEntries();
 
-			_client.createMenuEntry(0)
+			_client.getMenu().createMenuEntry(0)
 				.setOption("Send")
 				.setTarget("<col=ff9040>Pin</col>")
 				.onClick(e -> {
@@ -127,7 +127,7 @@ public class MapPinPlugin extends Plugin
 				if (entry.getTarget().contains("Pin")) {
 					String _pinOwner = entry.getTarget().split("'")[0].split(">")[1];
 
-					_client.createMenuEntry(0)
+					_client.getMenu().createMenuEntry(0)
 						.setOption("Remove")
 						.setTarget(entry.getTarget())
 						.onClick(e -> {
