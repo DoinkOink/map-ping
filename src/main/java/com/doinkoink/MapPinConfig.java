@@ -21,4 +21,21 @@ public interface MapPinConfig extends Config
 	{
 		return new Color(220, 138, 0);
 	}
+
+	@ConfigItem(
+		keyName = "pinStyle",
+		name = "Map Pin",
+		description = "Select which map pin you wish to use. (recommended 48x48 image size)"
+	)
+	default MapPinImage selectedPin()
+	{
+		return MapPinImage.DEFAULT;
+	}
+
+	@ConfigItem(
+		keyName = "pinSize",
+		name = "Map Pin Size",
+		description = "How large you want the pins on the map."
+	)
+	default int mapPinSize() { return 48; }
 }
